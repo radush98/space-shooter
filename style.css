@@ -1,0 +1,204 @@
+/* Видео для заднего фона */
+#video-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    background: url(images/bg-poster.png) no-repeat #384657;
+    background-size: cover;
+}
+
+#video-bg > video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto;
+    height: auto; 
+}
+
+@supports (object-fit: cover) {
+    #video-bg > video {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+/* ===
+ Игра 
+=== */
+#app {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 9;
+}
+/* Жизни */
+#lifes {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+}
+
+#lifes span {
+    display: block;
+    margin: 10px;
+    float: left;
+    width: 40px;
+    height: 40px;
+    background: url(images/life.png);
+    background-size: cover;
+}
+/* Кнопки опций игры */
+#options {
+    float: right;
+    height: 40px;
+    margin: 10px;
+}
+#options div {
+    float: left;
+    cursor: pointer;
+}
+#options #score {
+    color: #fff;
+    font-size: 24px;
+    margin: 6px 40px;
+}
+#options #sound,
+#options #sound img {
+    height: 100%;
+}
+
+/* Игрок */
+#player {
+    height: 200px;
+    position: absolute;
+    top: calc(50% - 225px);
+    left: 60px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+#player.skin_1 {
+    width: 168px;
+    background: url(images/player_1.png);
+}
+
+#player.skin_2 {
+    width: 177px;
+    background: url(images/player_2.png);
+}
+/* Пуля */
+.bullet {
+    width: 30px;
+    height: 10px;
+    background: #fefbfe;
+    border-radius: 2px 5px 5px 2px;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    border-radius: 2px 7px 7px 2px;
+    box-shadow: 0 0 5px #fff, 0 0 8px #fff, 0 0 12px #fff, 0 0 15px red, 0 0 25px red;
+    z-index: 5;
+}
+/* Взрыв */
+.boom {
+    background: url(images/boom.gif);
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    z-index: 9999;
+    top: 40%;
+    left: 50%;
+}
+/* Враги */
+.enemy {
+    position: absolute;
+    top: calc(70% - 85px);
+    right: 20px;
+    z-index: 999999;
+}
+/* Враг тип 1 */
+.enemy.type-1 {
+    top: calc(30% - 85px);
+    width: 117px;
+    height: 120px;
+    background: url("images/enemy-1.gif") no-repeat;
+}
+/* Враг тип 2 */
+.enemy.type-2 {
+    width: 174px;
+    height: 100px;
+    background: url("images/enemy-2.gif") no-repeat;
+}
+
+/*===
+Стартовое окно
+===*/
+#start {
+    background: #FFF;
+    width: 600px;
+    height: 520px;
+    border-radius: 20px;
+    text-align: center;
+    padding: 2px 20px;
+    margin: 80px auto;
+    font-family: arial black;
+    font-size: 24px;
+}
+#start #select-player {
+    width: 475px;
+    margin: 0 auto;
+}
+#start #select-player span {
+    border-radius: 10px;
+    display: block;
+    float: left;
+    padding: 30px;
+    cursor: pointer;
+}
+
+#start #select-player span.selected {
+    border: 2px solid #326184;
+}
+#start button {
+    padding: 20px 60px;
+    font-size: 24px;
+    font-family: arial black;
+    background: #f78422;
+    border-radius: 50px;
+    border: 4px solid #336184;
+    cursor: pointer;
+    margin: 20px;
+    outline: none;
+    color: #FFF;
+    text-transform: uppercase;
+}
+#start button:hover {
+    background: #8a7868;
+}
+/*===
+Вспомогательные классы
+===*/
+.clearfix {
+    zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
