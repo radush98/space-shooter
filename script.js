@@ -1,44 +1,33 @@
-/*player */
-const player = document.querySelector('audio');
-const playerSource = document.querySelector('audio source');
+/*constants */
+const audioaudioPlayer = document.querySelector('audio'); //audioPlayer
+const startButton = document.querySelector("#start"); //start button
+const gameBlock = document.querySelector('#game');// game button
 
-/* controls */
-const playButton = document.querySelector('#play');
-const puaseButton = document.querySelector('#pause');
-const audio1Btn = document.querySelector('#audio1');
-const audio2Btn = document.querySelector('#audio2');
-
-/*lifes*/
-const lifes = document.querySelector('#lifes');
-
-/*main blocks*/
-const game = document.querySelector('#game');
-const start = document.querySelector('#start');
-
-/*Event listeners*/
-playButton.addEventListener('click', () => {
-    game.style.display = "block";
-    start.style.display = "none";
+startButton.addEventListener('click', () => {
+    const startBlock = document.querySelector('#start');
+    startBlock.style.display = 'none';
+    gameBlock.style.display = 'block';
 })
 
-audio1Btn.addEventListener('click', changeSource)
-audio2Btn.addEventListener('click', changeSource)
-
-/*custom functions*/
-function changeSource(e) {
-    player.pause();
-    if (e.target.id === 'audio1') {
-        playerSource.src = 'audio/music.mp3';
+let sound = false;
+const soundButton = document.querySelector('#sound img');
+soundButton.addEventListener('click', () => {
+    if (sound) {
+        soundButton.src = 'images/mute_sound.png';
+        audioPlayer.pause();
     }
-    else if (e.target.id === 'audio2') {
-        playerSource.src = 'audio/Stay.mp3';
+    else {
+        soundButton.src = 'images/sound_on.png';
+        audioPlayer.play();
     }
-    player.load();
-    player.play();
-}
+    sound = !sound;
+})
 
-const lifesAmount = lifes.children.length;
-const amount = 5 - lifesAmount;
-for (let i = 0; i < amount; i++) {
-    lifes.innerHTML += '<span></span>'
-}
+const player = document.querySelector('#player');
+
+document.addEventListener('keydown', event => {
+    if (event.key == 'ArrowUp' || event.key == 'w')
+        player.style.top = `${player.offsetTop - 10}px`
+    if (event.key == 'ArrowDown' || event.key == 's')
+        player.style.top = `${player.offsetTop + 10}px`
+})
