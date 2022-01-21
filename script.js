@@ -3,10 +3,14 @@ const audioPlayer = document.querySelector('audio'); //audioPlayer
 const startButton = document.querySelector("#start"); //start button
 const gameBlock = document.querySelector('#game');// game button
 const player = document.querySelector('#player');//player's element
+const scoreCounter = document.querySelector('#score-counter');//our scores element
 
 const min = 100;
 const max = 500;
 const enemies = { 'type-1': 200, 'type-2': 400 };
+
+let lifesCount = 3;
+let score = 0;
 
 /*hide start menu */
 startButton.addEventListener('click', startGame)
@@ -43,10 +47,7 @@ document.addEventListener('keydown', event => {
     if (
         event.key == " "
     ) {
-        const bullet = document.createElement('div');
-        bullet.classList.add('bullet');
-        gameBlock.appendChild(bullet);
-        moveBullet(bullet);
+        createBullet();
     }
 })
 
@@ -57,9 +58,6 @@ function startGame() {
     gameBlock.style.display = 'block';
 
     createEnemy();
-
-    // const bullet = document.querySelector(".bullet");
-    // setInterval(() => { moveBullet(bullet) }, 50);
 }
 
 /*enemy move function */
@@ -70,17 +68,21 @@ function moveEnemy(enemy, speed) {
             enemy.remove();
             createEnemy();
             clearInterval(interval);
+            hit();
         }
     }, speed)
 }
 
 /*move bullet function*/
 function moveBullet(bullet) {
-    setInterval(() => {
+    const interval = setInterval(() => {
         bullet.style.left = `${bullet.offsetLeft + 25}px`;
         if (bullet.offsetLeft > document.body.clientWidth) {
             bullet.remove();
+            clearInterval(interval);
         }
+
+        isBoom(bullet);
     }, 50);
 }
 
@@ -97,8 +99,67 @@ function createEnemy() {
     moveEnemy(enemy, speed);
 }
 
+/*create bullet*/
+function createBullet() {
+    const bullet = document.createElement('div');
+    bullet.classList.add('bullet');
+    gameBlock.appendChild(bullet);
+    bullet.style.top = player.offsetTop + 140 + "px";
+    moveBullet(bullet);
+}
+
+/*returns enemy*/
 function getEnemy() {
     const amount = Object.entries(enemies).length - 1;
     const index = Math.floor(Math.random() * (amount - 0 + 1)) + 0;
     return Object.entries(enemies)[index];
+}
+
+/*if enemy and bullet collapse*/
+function isBoom(bullet) {
+    const enemy = document.querySelector(".enemy");
+
+    if (bullet.offsetTop > enemy.offsetTop &&
+        bullet.offsetTop < enemy.offsetTop + enemy.clientHeight &&
+        bullet.offsetLeft > enemy.offsetLeft) {
+        createBoom(bullet.offsetLeft, bullet.offsetTop);
+        bullet.remove();
+        enemy.remove();
+        scoreCounter.innerText = ++score;
+        createEnemy();
+    }
+}
+
+/*when enemy passed*/
+function hit() {
+    lifesCount--;
+    if (lifesCount === 0) {
+        alert("Game over");
+    }
+
+    createLifes();
+}
+
+/*lifes generator*/
+function createLifes() {
+    const lifesBlock = document.querySelector("#lifes");
+    lifesBlock.innerHTML = '';
+
+    let count = 0;
+
+    while (count < lifesCount) {
+        const span = document.createElement("span");
+        lifesBlock.appendChild(span);
+        count++;
+    }
+}
+
+function createBoom(left, top) {
+    const boom = document.createElement('div');
+    boom.classList.add('boom');
+    console.log(top, left);
+    boom.style.top = `${top - 100}px`;
+    boom.style.left = `${left}px`;
+    gameBlock.appendChild(boom);
+    setTimeout(() => boom.remove(), 1000);
 }
